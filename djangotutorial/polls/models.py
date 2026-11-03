@@ -9,13 +9,17 @@ class Question(models.Model):
     pub_date = models.DateTimeField("date published")
 
     def __str__(self):
-        return self.question_text
+        date_locale = timezone.localtime(self.pub_date)
+        return self.question_text[:20] + " - " + date_locale.strftime("%d/%m/%Y à %Hh%M")
 
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
     def age(self):
         return timezone.now() - self.pub_date
+
+    def get_choices(self):
+        return self.choice_set.all()
 
 
 class Choice(models.Model):
@@ -24,4 +28,4 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.choice_text
+        return self.choice_text[:20]
