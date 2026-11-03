@@ -55,7 +55,7 @@ questions suivant les dates que vous avez saisies à l'exercice précédent.
 de données, puis affichez les valeurs de tous ses attributs et tous les choix associés.
 
 >>> q = Question.objects.get(pk=2)         
->>> print(question.id, question.question_text, question.pub_date)
+>>> print(q.id, q.question_text, q.pub_date)
 5 Plongée ou Canyoning? 2025-06-18 15:02:09+00:00
 >>> q.choice_set.all()            
 <QuerySet [<Choice: Le ski !>, <Choice: La plage>, <Choice: Ni l'un ni l'autre>]>
@@ -118,9 +118,7 @@ traversant les relations pour obtenir une solution la plus synthétique possible
 >>> Question.objects.order_by("choice__votes")
 <QuerySet [<Question: Quoi de neuf ?>, <Question: Quoi de neuf ?>, <Question: Quoi de neuf ?>, <Question: Préfères tu le ski ou la plage?>, <Question: Préfères tu le ski ou la plage?>, <Question: Préfères tu le ski ou la plage?>, <Question: Que penses tu d'Halloween?>, <Question: Que penses tu d'Halloween?>, <Question: Que penses tu d'Halloween?>, <Question: Langage de programmation préféré?>, <Question: Langage de programmation préféré?>, <Question: Langage de programmation préféré?>, <Question: Plongée ou Canyoning?>, <Question: Plongée ou Canyoning?>, <Question: Plongée ou Canyoning?>]>
 
-Question.objects.order_by("-choice__votes").values(
-    "id",
-    "question_text",
+Question.objects.order_by("-choice__votes").values("id","question_text",
     "pub_date",
     "choice__choice_text",
     "choice__votes"
