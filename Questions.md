@@ -189,6 +189,16 @@ Préfères tu le ski ou la plage? <QuerySet [<Choice: Le ski !>, <Choice: La pla
 >>> Question.objects.filter(pub_date__gte=date_limite)
 <QuerySet [<Question: Quoi de neuf ?>, <Question: Avez vous un/des chat(s) ou un/des chien(s)?>]>
 
+
+En fait on peut utiliser la méthode créée dans le modèle ! 
+
+>>> for question in Question.objects.all():
+...     if question.was_published_recently():
+...         print(question.question_text)
+... 
+Quoi de neuf ?
+Avez vous un/des chat(s) ou un/des chien(s)?
+
 12. [optionnel] Listez tous les utilisateurs enregistrés sur l'application, en s'inspirant
 de Utilisation du système d’authentification de Django > Création d'utilisateurs pour
 accéder à tous les objets de la classe User (s'inspirer également du code de la Q1).
