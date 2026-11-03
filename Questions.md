@@ -217,7 +217,21 @@ seve severine hm True False
 
 
 
+2.2.3 Exercice d'écriture de méthodes du modèle – optionnel
 
+Dans le cours vous avez créé une méthode d'instance de la classe Question
+nommée was_published_recently(). Elle s'applique aux objets de la
+classe Question et permet de déterminer si la question a été publiée récemment ou non.
+1. Sur le même modèle, ajoutez une méthode nommée age() qui calcule l'âge de la
+question.
 
-
+>>> for question in Question.objects.all():
+...     print(question.age())
+... 
+5:10:10.845341
+88 days, 4:10:10.845514
+3 days, 14:02:16.845593
+107 days, 21:30:07.845695
+502 days, 22:00:07.845734
+0:56:11.694394
 
