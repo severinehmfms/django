@@ -2,7 +2,9 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django.db.models import Sum
 
+MAX_LENGTH = 20
 
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
@@ -19,8 +21,17 @@ class Question(models.Model):
         return timezone.now() - self.pub_date
 
     def get_choices(self):
-        return self.choice_set.all()
+        choices = self.choice_set.all()
+        resultat = self.choice_set.aggregate(total=Sum('votes'))
+        total = resultat['total']
+        return [(c.choice_text, c.votes, c.votes / total) for c in choices]
 
+    def get_max_choice(self):
+        choices = self.choice_set.all()
+        resultat = self.choice_set.aggregate(total=Sum('votes'))
+        total = resultat['total']
+        max_choice = max(choices, key=lambda c: c.votes / total)
+        return (max_choice.choice_text, max_choice.votes / total)
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
