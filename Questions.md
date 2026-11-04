@@ -179,6 +179,12 @@ Préfères tu le ski ou la plage? <QuerySet [<Choice: Le ski !>, <Choice: La pla
 >>> c = Choice(choice_text="Aucun des deux...", votes=0, question=q)
 >>> c.save()
 
+Correction : autre manière de faire : 
+q.choice_set.create(choice_text="Sahara", votes=0)
+q.choice_set.create(choice_text="Kalahari", votes=0)
+q.choice_set.all()
+q.save()
+
 11. Listez les questions publiées récemment.
 
 >>> from django.utils import timezone
