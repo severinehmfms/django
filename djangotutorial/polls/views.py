@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
-
+from django.db.models import Sum
 from polls.models import Question, Choice
 
 
@@ -115,3 +115,43 @@ def frequency(request, question_id):
                         "choices": choices
                    }
                   )
+def statistics(request):
+    question_list = Question.objects.order_by("-pub_date")
+
+    # On va récupérer les informations qu'on souhaite ensuite afficher
+    # le nombre total de sondage enregistrés
+    nb_sondages = question_list.count()
+    nb_sondagesbis = Question.objects.count()
+
+    # le nombre total de choix possibles
+    nb_total_choices = Choice.objects.count()
+
+    # le nombre total de votes (voir aide pdf)
+    nb_total_votes = Choice.objects.aggregate(Sum("votes"))
+
+    # la moyenne du nombre de votes par sondage
+
+
+    # [optionnel] la question la plus populaire
+
+    # [optionnel] la question la moins populaire
+
+    # la dernière question enregistrée
+
+    # On va implanter ces informations dans le context qui sera ensuite envoyé au gabarit
+    statistics_dict = {
+        "nb_sondages": nb_sondagesbis,
+        "nb_total_choices": nb_total_choices,
+        "nb_total_votes": nb_total_votes
+    }
+
+    context = {"question_list": question_list,
+                "statistics_dict": statistics_dict
+
+               }
+    # template = loader.get_template("polls/index.html")
+    # return HttpResponse(template.render(context, request))
+    # Raccourci pour les deux dernières lignes commentées :
+
+    # On envoie le context au template de statistics
+    return render(request, "polls/statistics.html", context)
