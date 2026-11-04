@@ -102,3 +102,7 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+
+def frequency(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, "polls/frequency.html", {"question": question})
