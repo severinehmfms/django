@@ -8,7 +8,9 @@
 <h1>{{ question.question_text }}</h1>
 
 <form action="{% url 'polls:vote' question.id %}" method="post">
+    <!-- csrf_token sert à se protéger des  des attaques inter-sites , tous les formulaires POST destinés à des URL internes doivent utiliser cette balise de gabarit-->
 {% csrf_token %}
+    
 <fieldset>
     <legend><h1>{{ question.question_text }}</h1></legend>
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -18,7 +20,7 @@
     {% endfor %}
 </fieldset>
 <input type="submit" value="Vote">
-</form>t 
+</form>t
 
 </body>
 </html>
