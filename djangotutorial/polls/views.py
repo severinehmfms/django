@@ -105,4 +105,13 @@ def vote(request, question_id):
 
 def frequency(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    return render(request, "polls/frequency.html", {"question": question})
+
+    #Pour chacun des choix on va récupérer le nombre de votes, et max_choice
+    choices = question.get_choices();
+    print(choices);
+    return render(request,
+                  "polls/frequency.html",
+                  {"question": question,
+                        "choices": choices
+                   }
+                  )

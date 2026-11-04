@@ -24,7 +24,7 @@ class Question(models.Model):
         choices = self.choice_set.all()
         resultat = self.choice_set.aggregate(total=Sum('votes'))
         total = resultat['total']
-        return [(c.choice_text, c.votes, c.votes / total) for c in choices]
+        return [(c.choice_text, c.votes, c.votes / total * 100) for c in choices]
 
     def get_max_choice(self):
         choices = self.choice_set.all()
