@@ -1,7 +1,7 @@
-from django.shortcuts import render
 from django.http import HttpResponse
-from django.template import loader
-from django.http import Http404
+#from django.template import loader
+#from django.http import Http404
+from django.shortcuts import get_object_or_404, render
 
 from polls.models import Question
 
@@ -27,11 +27,18 @@ def index(request):
 #def detail(request, question_id):
 #    return HttpResponse("You're looking at question %s." % question_id)
 
-def detail(request, question_id):
+#En gérant l'erreur 404 si la question n'existe pas
+"""def detail(request, question_id):
     try:
         question = Question.objects.get(pk=question_id)
     except Question.DoesNotExist:
         raise Http404("Question does not exist")
+    return render(request, "polls/detail.html", {"question": question})"""
+
+#En gérant l'erreur 404 si la question n'existe pas en utilisant Un raccourci : get_object_or_404()
+#Pour info : Il y a aussi une fonction get_list_or_404(), qui fonctionne comme get_object_or_404(), sauf qu’elle utilise filter() au lieu de la méthode get(). Elle lève une exception Http404 si la liste est vide.
+def detail(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
     return render(request, "polls/detail.html", {"question": question})
 
 def results(request, question_id):
