@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ question.question_text }}</title>
-</head>
-<body>
+
 <h1>{{ question.question_text }}</h1>
 
 <form action="{% url 'polls:vote' question.id %}" method="post">
@@ -21,6 +15,3 @@
 </fieldset>
 <input type="submit" value="Vote">
 </form>
-
-</body>
-</html>
