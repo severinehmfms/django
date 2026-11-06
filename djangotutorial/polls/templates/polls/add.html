@@ -10,5 +10,13 @@
     <label for="question_text">Question text:</label>
     <input type="text" name="question_text" id="question_text">
     <br>
+
+    {% for no_choix in liste_no_choix %}
+    <label for="choix_{{ no_choix }}">
+    choice #{{ forloop.Counter }}:</label>
+    <input type="text" name="choix_{{ no_choix }}"
+    id="choix_{{ no_choix }}" ><br>
+    {% endfor %}
+
     <input type="submit" value="Add">
 </form>
