@@ -1,15 +1,18 @@
-from django.db.models import F
+from django.db.models import F, Max
 from django.http import HttpResponse, HttpResponseRedirect
 #from django.template import loader
 #from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.utils import timezone
 from django.views import generic
 from django.db.models import Sum
 from polls.models import Question, Choice
-
+from polls.utils import minimax
 
 # Create your views here.
+
+NB_MAX_CHOIX = 5
 
 #def index(request):
 #    return HttpResponse("Hello, world. You're at the polls index.")
@@ -116,42 +119,67 @@ def frequency(request, question_id):
                    }
                   )
 def statistics(request):
-    question_list = Question.objects.order_by("-pub_date")
+    #question_list = Question.objects.order_by("-pub_date")
 
     # On va récupérer les informations qu'on souhaite ensuite afficher
     # le nombre total de sondage enregistrés
-    nb_sondages = question_list.count()
-    nb_sondagesbis = Question.objects.count()
+    #nb_sondages = question_list.count()
+    nb_sondages = Question.objects.count()
 
     # le nombre total de choix possibles
     nb_total_choices = Choice.objects.count()
 
     # le nombre total de votes (voir aide pdf)
-    nb_total_votes = Choice.objects.aggregate(Sum("votes"))
+    #nb_total_votes = Choice.objects.aggregate(Sum("votes"))
+    nbr_votes = Choice.objects.aggregate(somme=Sum('votes'))['somme']
 
     # la moyenne du nombre de votes par sondage
-
+    moyenne_par_sondage = nbr_votes / nb_sondages
 
     # [optionnel] la question la plus populaire
+    question_la_plus_populaire = minimax()
 
     # [optionnel] la question la moins populaire
+    question_la_moins_populaire = minimax()
 
     # la dernière question enregistrée
+    id_derniere_question = Question.objects.aggregate(max=Max('id'))['max']
 
     # On va implanter ces informations dans le context qui sera ensuite envoyé au gabarit
-    statistics_dict = {
-        "nb_sondages": nb_sondagesbis,
+    context = {
+        "nbr_sondages": nb_sondages,
         "nb_total_choices": nb_total_choices,
-        "nb_total_votes": nb_total_votes
+        "nb_total_votes": nbr_votes,
+        'moyenne_par_sondage': moyenne_par_sondage,
+
+        'question_la_plus_populaire': question_la_plus_populaire,
+        'question_la_moins_populaire': question_la_moins_populaire,
+        'derniere_question': id_derniere_question,
+
     }
-
-    context = {"question_list": question_list,
-                "statistics_dict": statistics_dict
-
-               }
     # template = loader.get_template("polls/index.html")
     # return HttpResponse(template.render(context, request))
     # Raccourci pour les deux dernières lignes commentées :
 
     # On envoie le context au template de statistics
     return render(request, "polls/statistics.html", context)
+
+def add(request):
+    return render(request, 'polls/add.html')
+
+def confirm_add(request):
+    # récupération du libellé de la question,
+    # sans les éventuels espaces avant et après
+    question_text = request.POST['question_text'].strip()
+    if question_text:
+        # ajout de la question si elle n'est pas vide
+        question = Question(question_text=question_text, pub_date=timezone.now())
+        question.save()
+        return render(request, 'polls/confirm_add.html')
+    else:
+        # réaffichage du formulaire de saisie de la question
+        # avec le message d'erreur
+        return render(request, 'polls/add.html', {
+        'error_message': "You didn't enter a question text",
+        })
+
