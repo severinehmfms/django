@@ -14,6 +14,8 @@ class Question(models.Model):
         date_locale = timezone.localtime(self.pub_date)
         return self.question_text[:20] + " - " + date_locale.strftime("%d/%m/%Y à %Hh%M")
 
+    def __repr__(self): return "<Question: {}>".format(self.question_text)
+
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
