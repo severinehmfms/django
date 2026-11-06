@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Fréquence des votes</title>
-</head>
-<body>
 
-    <h1>{{ question.question_text }}</h1>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    {% for choice in choices %}
-        {{ choice.1 }} votes - {{ choice.2|floatformat:2 }}% de votes - {{ choice.0 }} <br/>
-    {% endfor %}
-</body>
-</html>
+
+<h1>{{ question.question_text }}</h1>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% for choice in choices %}
+    {{ choice.1 }} votes - {{ choice.2|floatformat:2 }}% de votes - {{ choice.0 }} <br/>
+{% endfor %}
