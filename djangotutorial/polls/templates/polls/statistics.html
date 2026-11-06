@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Statistiques</title>
-</head>
-<body>
-
 <h1> Statistiques </h1>
-{{ statistics_dict.nb_sondages }} sondages <br/>
-{{ statistics_dict.nb_total_choices }} choix possibles <br/>
-{{ statistics_dict.nb_total_votes.votes__sum }} votes <br/>
+<p>Nombre de sondages : {{ nbr_sondages }}</p>
+<p>Nombre de choix : {{ nbr_choix }}</p>
+<p>Nombre de votes : {{ nbr_votes }}</p>
+<p>Moyenne par sondage : {{ moyenne_par_sondage }}</p>
+<p>question la plus populaire : {{ question_la_plus_populaire }}</p>
+<p>question la moins populaire : {{ question_la_moins_populaire }}</p>
+<p>dernière question : {{ derniere_question }}</p>
 
-
-</body>
-</html>
+<p><a href="{% url 'polls:index' %}">index</a></p>
