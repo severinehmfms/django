@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Confirmation du vote</title>
-</head>
-<body>
-
 <h1>{{ question.question_text }}</h1>
 
 <ul>
@@ -15,6 +7,3 @@
 </ul>
 
 <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
-
-</body>
-</html>
