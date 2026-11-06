@@ -3,9 +3,26 @@ from django.contrib import admin
 from .models import Question
 from .models import Choice
 
+
+#Ici l'admin des choix mais à part
+class ChoiceAdmin(admin.ModelAdmin):
+    list_display = ("question", "choice_text", "votes")
+    list_filter = ("question","votes",)
+    search_fields = ("choice_text",)
+    ordering = ("-question","-votes")
+
+# admin.site.register(Choice)
+admin.site.register(Choice, ChoiceAdmin)
+
+# Version choix en ligne qui prend trop de place, alors on va prendre l'option tableau (ligne ci-dessous)
+#class ChoiceInline(admin.StackedInline):
+class ChoiceInline(admin.TabularInline):
+    model = Choice
+    extra = 3
+
 class QuestionAdmin(admin.ModelAdmin):
     # Champs qui seront affichés dans la liste
-    list_display = ("question_text", "pub_date")
+    list_display = ["question_text", "pub_date", "was_published_recently"]
     # Champs sur lesquels on pourra filtrer
     list_filter = ("pub_date",)
     # Champs pour la recherche
@@ -21,16 +38,8 @@ class QuestionAdmin(admin.ModelAdmin):
         (None, {"fields": ["question_text"]}),
         ("Date information", {"fields": ["pub_date"]}),
     ]
+    # On intègre ici l'admin des choix au lieu d'avoir une admin séparée pour les choix
+    inlines = [ChoiceInline]
 
 # admin.site.register(Question)
 admin.site.register(Question, QuestionAdmin)
-
-
-class ChoiceAdmin(admin.ModelAdmin):
-    list_display = ("question", "choice_text", "votes")
-    list_filter = ("question","votes",)
-    search_fields = ("choice_text",)
-    ordering = ("-question","-votes")
-
-# admin.site.register(Choice)
-admin.site.register(Choice, ChoiceAdmin)
