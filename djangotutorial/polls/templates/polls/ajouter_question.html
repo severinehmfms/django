@@ -1,3 +1,15 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Ajout d'un sondage {% endblock %}
+
+{% block header %}
+    <img src="{% static 'images/banner-header.jpg' %}" alt="Bannière du site" height="50">
+{% endblock %}
+
+{% block main %}
+
 <h1>Ajouter une question</h1>
 
 <form method="post">
@@ -58,3 +70,6 @@
         Retour à la liste des questions
     </a>
 </p>
+
+
+{% endblock %}

@@ -1,3 +1,13 @@
-<h1>Confirmation of adding a question</h1>
-<p>Your question has well been added</p>
-<a href="{% url 'polls:index' %}">Back to questions list</a>
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Confirmation d'ajout du sondage {% endblock %}
+
+{% block main %}
+
+    <h1>Confirmation of adding a question</h1>
+    <p>Your question has well been added</p>
+    <a href="{% url 'polls:index' %}">Back to questions list</a>
+
+{% endblock %}

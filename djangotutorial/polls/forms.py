@@ -12,7 +12,7 @@ class QuestionForm(forms.Form):
         label="Texte de la question",
         help_text="Minimum 10 caractères, maximum 200 caractères",
         max_length=200,
-        error_messages={"required": "La question est obligatoire"}, #permet de personnaliser le message d'erreur renvoyé par Django., mais ne fonctionne pas si le navigateur vérifie AVANT 
+        error_messages={"required": "La question est obligatoire"}, #permet de personnaliser le message d'erreur renvoyé par Django., mais ne fonctionne pas si le navigateur vérifie AVANT
         validators=[
             MinLengthValidator(10),
             verifier_question

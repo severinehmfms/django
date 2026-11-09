@@ -1,17 +1,24 @@
+{% extends "base.html" %}
 
-<h1>{{ question.question_text }}</h1>
+{% load static %}
 
-<form action="{% url 'polls:vote' question.id %}" method="post">
-    <!-- csrf_token sert à se protéger des  des attaques inter-sites , tous les formulaires POST destinés à des URL internes doivent utiliser cette balise de gabarit-->
-{% csrf_token %}
+{% block title %}Détail d'un sondage {% endblock %}
 
-<fieldset>
-    <legend><h1>{{ question.question_text }}</h1></legend>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    {% for choice in question.choice_set.all %}
-        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-    {% endfor %}
-</fieldset>
-<input type="submit" value="Vote">
-</form>
+{% block main %}
+    <h1>{{ question.question_text }}</h1>
+
+    <form action="{% url 'polls:vote' question.id %}" method="post">
+        <!-- csrf_token sert à se protéger des  des attaques inter-sites , tous les formulaires POST destinés à des URL internes doivent utiliser cette balise de gabarit-->
+    {% csrf_token %}
+
+    <fieldset>
+        <legend><h1>{{ question.question_text }}</h1></legend>
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% for choice in question.choice_set.all %}
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+        {% endfor %}
+    </fieldset>
+    <input type="submit" value="Vote">
+    </form>
+{% endblock %}

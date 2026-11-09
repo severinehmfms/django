@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <title>{% block title %}My amazing site{% endblock %}</title>
+
+    <header>
+        {% block header %}
+        <img src="{% static 'images/banner-header.jpg' %}" alt="Bannière du site" height="150">
+        {% endblock %}
+    </header>
+</head>
+<body>
+
+<main>
+{% block main %}{% endblock %}
+</main>
+
+</body>
+</html>
