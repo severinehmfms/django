@@ -1,10 +1,22 @@
 from django import forms
+from django.core.exceptions import ValidationError
+from django.core.validators import MinLengthValidator
+
 
 class QuestionForm(forms.Form):
+    def verifier_question(value):
+        if "?" not in value:
+            raise ValidationError("La question doit contenir un point d'interrogation.")
 
     question_text = forms.CharField(
         label="Texte de la question",
-        max_length=200
+        help_text="Minimum 10 caractères, maximum 200 caractères",
+        max_length=200,
+        error_messages={"required": "La question est obligatoire"}, #permet de personnaliser le message d'erreur renvoyé par Django., mais ne fonctionne pas si le navigateur vérifie AVANT 
+        validators=[
+            MinLengthValidator(10),
+            verifier_question
+        ],
     )
 
     pub_date = forms.DateTimeField(
