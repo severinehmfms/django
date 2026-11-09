@@ -18,6 +18,15 @@
                     <a href="{% url 'polls:statistics' %}">Statistiques</a>
                     <a href="{% url 'polls:add' %}">Ajouter une question (sans form django)</a>
                     <a href="{% url 'polls:ajouter_question' %}">Ajouter une question (avec form django)</a>
+                    {% if user.is_authenticated %}
+                        <!-- plus sécurisé avec post mais possible aussi de mettre un lien déconnexion-->
+                        <form method="post" action="{% url 'polls:logout' %}">
+                            {% csrf_token %}
+                            <button type="submit">Déconnexion</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'polls:login' %}">Connexion</a>
+                    {% endif %}
                 {% endblock %}
             </nav>
 

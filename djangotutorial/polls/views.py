@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db.models import F, Max
 from django.http import HttpResponse, HttpResponseRedirect
 #from django.template import loader
@@ -11,6 +13,9 @@ from django.db.models import Sum
 from polls.forms import QuestionForm
 from polls.models import Question, Choice
 from polls.utils import minimax
+
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 
@@ -120,7 +125,14 @@ def frequency(request, question_id):
                         "choices": choices
                    }
                   )
+
+
 def statistics(request):
+    """
+    if not request.user.is_authenticated:
+        #return redirect(f"{settings.LOGIN_URL}?next={request.path}")
+        return render(request, "polls/login_error.html")"""
+
     #question_list = Question.objects.order_by("-pub_date")
 
     # On va récupérer les informations qu'on souhaite ensuite afficher
@@ -165,6 +177,7 @@ def statistics(request):
 
 
 #Version avec formulaire simple (pas utilisé ModelForm)
+@login_required
 def ajouter_question(request):
 
     if request.method == "POST":
@@ -218,7 +231,7 @@ def ajouter_question(request):
         {"form": form}
     )
 
-
+@login_required
 def add(request):
     #return render(request, 'polls/add.html')
 
@@ -254,3 +267,60 @@ def confirm_add(request):
         'error_message': "You didn't enter a question text",
         })
 
+""" Sans utiliser authenticationForm 
+def login_view(request):
+    # username = request.POST["username"]
+    # password = request.POST["password"]
+
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        # Redirect to a success page.
+        return redirect("polls:index")
+    else:
+        # Return an 'invalid login' error message.
+        return render(request, "polls/index.html", {
+            "error_message": "Identifiant ou mot de passe incorrect."
+        })
+"""
+
+def login_view(request):
+
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+
+            # On récupère l'url demandée pour retourner dessus et non sur la page d'accueil
+            next_url = request.POST.get("next")  #next_url = request.GET.get("next") ?
+
+            if next_url:
+                return redirect(next_url)
+
+            return redirect("polls:index")
+
+    else:
+        form = AuthenticationForm()
+
+    return render(request, "polls/login.html", {
+        "form": form
+    })
+
+
+
+"""
+# Avec méthode GET (lien seul)
+def logout_view(request):
+    logout(request)
+    return redirect("polls:index")
+"""
+def logout_view(request):
+    if request.method == "POST":
+        logout(request)
+
+    return redirect("polls:index")

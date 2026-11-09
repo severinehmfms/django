@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Login {% endblock %}
+
+{% block main %}
+
+    <h1>Connexion</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+
+        <button type="submit">Se connecter</button>
+    </form>
+
+{% endblock %}
