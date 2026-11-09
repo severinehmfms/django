@@ -138,11 +138,8 @@ def statistics(request):
     # la moyenne du nombre de votes par sondage
     moyenne_par_sondage = nbr_votes / nb_sondages
 
-    # [optionnel] la question la plus populaire
-    question_la_plus_populaire = minimax()
-
-    # [optionnel] la question la moins populaire
-    question_la_moins_populaire = minimax()
+    # [optionnel] la question la plus populaire ET [optionnel] la question la moins populaire
+    question_la_moins_populaire, question_la_plus_populaire = minimax()
 
     # la dernière question enregistrée
     id_derniere_question = Question.objects.aggregate(max=Max('id'))['max']
