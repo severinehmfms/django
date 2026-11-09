@@ -2,11 +2,13 @@ from django.db.models import F, Max
 from django.http import HttpResponse, HttpResponseRedirect
 #from django.template import loader
 #from django.http import Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.views import generic
 from django.db.models import Sum
+
+from polls.forms import QuestionForm
 from polls.models import Question, Choice
 from polls.utils import minimax
 
@@ -163,6 +165,62 @@ def statistics(request):
 
     # On envoie le context au template de statistics
     return render(request, "polls/statistics.html", context)
+
+
+#Version avec formulaire simple (pas utilisé ModelForm)
+def ajouter_question(request):
+
+    if request.method == "POST":
+
+        form = QuestionForm(request.POST)
+
+        if form.is_valid():
+
+            # Récupération du texte de la question
+            question_text = form.cleaned_data["question_text"]
+
+            # Récupération de la date
+            pub_date = form.cleaned_data["pub_date"]
+
+            # Si aucune date n'est renseignée
+            if not pub_date:
+                pub_date = timezone.now()
+
+            # Création de la question
+            question = Question.objects.create(
+                question_text=question_text,
+                pub_date=pub_date
+            )
+
+            # Récupération des cinq choix
+            choices = [
+                form.cleaned_data["choice1"],
+                form.cleaned_data["choice2"],
+                form.cleaned_data["choice3"],
+                form.cleaned_data["choice4"],
+                form.cleaned_data["choice5"]
+            ]
+
+            # Création des choix renseignés
+            for choice_text in choices:
+
+                if choice_text:
+                    Choice.objects.create(
+                        question=question,
+                        choice_text=choice_text
+                    )
+
+            return redirect("polls:index")
+
+    else:
+        form = QuestionForm()
+
+    return render(
+        request,
+        "polls/ajouter_question.html",
+        {"form": form}
+    )
+
 
 def add(request):
     #return render(request, 'polls/add.html')

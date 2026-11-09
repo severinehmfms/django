@@ -31,4 +31,6 @@ urlpatterns = [
     path('add/', views.add, name='add'),
     # ex: /polls/confirm_add
     path('confirm_add/', views.confirm_add, name='confirm_add'),
+    #Formulaire d'ajout en utilisant les forms Django
+    path("ajouter/", views.ajouter_question, name="ajouter_question"),
 ]

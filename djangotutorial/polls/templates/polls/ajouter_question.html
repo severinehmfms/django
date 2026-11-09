@@ -1,0 +1,59 @@
+<h1>Ajouter une question</h1>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    <h2>Question</h2>
+
+    {{ form.question_text.label_tag }}
+    {{ form.question_text }}
+    {{ form.question_text.errors }}
+
+    <br><br>
+
+    {{ form.pub_date.label_tag }}
+    {{ form.pub_date }}
+    {{ form.pub_date.errors }}
+
+    <h2>Choix de réponses (facultatifs)</h2>
+
+    {{ form.choice1.label_tag }}
+    {{ form.choice1 }}
+    {{ form.choice1.errors }}
+
+    <br><br>
+
+    {{ form.choice2.label_tag }}
+    {{ form.choice2 }}
+    {{ form.choice2.errors }}
+
+    <br><br>
+
+    {{ form.choice3.label_tag }}
+    {{ form.choice3 }}
+    {{ form.choice3.errors }}
+
+    <br><br>
+
+    {{ form.choice4.label_tag }}
+    {{ form.choice4 }}
+    {{ form.choice4.errors }}
+
+    <br><br>
+
+    {{ form.choice5.label_tag }}
+    {{ form.choice5 }}
+    {{ form.choice5.errors }}
+
+    <br><br>
+
+    <button type="submit">Ajouter la question</button>
+
+</form>
+
+<p>
+    <a href="{% url 'polls:index' %}">
+        Retour à la liste des questions
+    </a>
+</p>

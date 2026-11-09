@@ -2,7 +2,9 @@
 
 <link rel="stylesheet" href="{% static 'polls/style.css' %}">
 
-<a href="{% url 'polls:add' %}">Add a question</a>
+<a href="{% url 'polls:add' %}">Ajouter une question (sans utiliser Form)</a>
+<br/>
+<a href="{% url 'polls:ajouter_question' %}">Ajouter une question (en utilisant Form)</a>
 
 {% if latest_question_list %}
     <ul>
