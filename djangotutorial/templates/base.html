@@ -8,7 +8,18 @@
 
     <header>
         {% block header %}
-        <img src="{% static 'images/banner-header.jpg' %}" alt="Bannière du site" height="150">
+            <img src="{% static 'images/banner-header.jpg' %}" alt="Bannière du site" height="150">
+
+            <nav>
+                {% block menu %}
+                    <a href="{% url 'polls:index' %}">Accueil</a>
+                    <a href="{% url 'polls:all' %}">Tous les sondages</a>
+                    <a href="{% url 'polls:statistics' %}">Statistiques</a>
+                    <a href="{% url 'polls:add' %}">Ajouter une question (sans form django)</a>
+                    <a href="{% url 'polls:ajouter_question' %}">Ajouter une question (avec form django)</a>
+                {% endblock %}
+            </nav>
+
         {% endblock %}
     </header>
 </head>
