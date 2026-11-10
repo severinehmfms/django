@@ -21,6 +21,8 @@ from django.contrib.auth.forms import AuthenticationForm
 
 NB_MAX_CHOIX = 5
 
+
+
 #def index(request):
 #    return HttpResponse("Hello, world. You're at the polls index.")
 

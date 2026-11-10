@@ -4,7 +4,7 @@
     {% load static %}
 
     <meta charset="UTF-8">
-    <title>{% block title %}My amazing site{% endblock %}</title>
+    <title>{% block title %}Application de sondages{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="{% static 'polls/style.css' %}">
 </head>
@@ -12,7 +12,17 @@
 
 <header>
         {% block header %}
-            <img src="{% static 'images/banner-header.jpg' %}" alt="Bannière du site" height="150">
+            <div class="header-top">
+                <img src="{% static 'images/banner-header.jpg' %}" alt="Bannière du site" height="150">
+                <div class="user-info">
+                    {% if user.is_authenticated %}
+                        <!-- plus sécurisé avec post mais possible aussi de mettre un lien déconnexion-->
+                        <p> {{ user.first_name }} {{ user.last_name }}<form method="post" action="{% url 'polls:logout' %}">{% csrf_token %}<button type="submit">Déconnexion</button></form></p>
+                    {% else %}
+                        <a href="{% url 'polls:login' %}">Connexion</a>
+                    {% endif %}
+                </div>
+            </div>
 
             <nav>
                 {% block menu %}
@@ -21,15 +31,6 @@
                     <a href="{% url 'polls:statistics' %}">Statistiques</a>
                     <a href="{% url 'polls:add' %}">Ajouter une question (sans form django)</a>
                     <a href="{% url 'polls:ajouter_question' %}">Ajouter une question (avec form django)</a>
-                    {% if user.is_authenticated %}
-                        <!-- plus sécurisé avec post mais possible aussi de mettre un lien déconnexion-->
-                        <form method="post" action="{% url 'polls:logout' %}">
-                            {% csrf_token %}
-                            <button type="submit">Déconnexion</button>
-                        </form>
-                    {% else %}
-                        <a href="{% url 'polls:login' %}">Connexion</a>
-                    {% endif %}
                 {% endblock %}
             </nav>
 

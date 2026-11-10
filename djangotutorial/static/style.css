@@ -49,3 +49,36 @@ footer {
     font-size: 0.9em;
 }
 
+/* Partie supérieure de l'en-tête */
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    background-color: #1b3d96;
+}
+.header-top a{
+    color:white;
+}
+
+/* Informations utilisateur */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #1b3d96;
+    color: white;
+}
+.user-info form {
+    margin: 0;
+}
+
+.user-info button {
+    padding: 7px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #d9534f;
+    color: white;
+    cursor: pointer;
+}
+
