@@ -226,8 +226,10 @@ def ajouter_question(request):
                         choice_text=choice_text
                     )
 
+            # Sans le raccourci
+            # return HttpResponseRedirect(reverse("polls:index"))
+            # En utilisant le raccourci de from django.shortcuts import redirect
             return redirect("polls:index")
-
     else:
         form = QuestionForm()
 
