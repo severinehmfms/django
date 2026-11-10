@@ -71,7 +71,11 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         """Return the last five published questions."""
-        return Question.objects.order_by("-pub_date")[:5]
+        # return Question.objects.order_by("-pub_date")[:5]
+        """
+        Return the last five published questions (not including those set to be published in the future).
+        """
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
 
 class AllView(generic.ListView):
     template_name = "polls/all.html"
