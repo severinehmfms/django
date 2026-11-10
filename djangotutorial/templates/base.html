@@ -6,8 +6,11 @@
     <meta charset="UTF-8">
     <title>{% block title %}My amazing site{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+</head>
+<body>
 
-    <header>
+<header>
         {% block header %}
             <img src="{% static 'images/banner-header.jpg' %}" alt="Bannière du site" height="150">
 
@@ -32,8 +35,6 @@
 
         {% endblock %}
     </header>
-</head>
-<body>
 
 <main>
 {% block main %}{% endblock %}

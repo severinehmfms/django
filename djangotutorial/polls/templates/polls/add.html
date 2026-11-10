@@ -6,30 +6,28 @@
 
 {% block header %}
     <img src="{% static 'images/banner-header.jpg' %}" alt="Bannière du site" height="50">
-
 {% endblock %}
 
 {% block main %}
-<h1>Add a question</h1>
+    <h1>Add a question</h1>
 
-{% if error_message %}
-<p><strong>{{ error_message }}</strong></p>
-{% endif %}
+    {% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
 
-<form action="{% url 'polls:confirm_add' %}" method="post">
-    {% csrf_token %}
-    <label for="question_text">Question text:</label>
-    <input type="text" name="question_text" id="question_text"/>
-    <br>
+    <form action="{% url 'polls:confirm_add' %}" method="post">
+        {% csrf_token %}
+        <label for="question_text">Question text:</label>
+        <input type="text" name="question_text" id="question_text"/>
+        <br>
 
-    {% for no_choix in liste_no_choix %}
-    <label for="choix_{{ no_choix }}">
-    choice #{{ forloop.Counter }}:</label>
-    <input type="text" name="choix_{{ no_choix }}"
-    id="choix_{{ no_choix }}" /><br/>
-    {% endfor %}
+        {% for no_choix in liste_no_choix %}
+        <label for="choix_{{ no_choix }}">
+        choice #{{ forloop.Counter }}:</label>
+        <input type="text" name="choix_{{ no_choix }}"
+        id="choix_{{ no_choix }}" /><br/>
+        {% endfor %}
 
-    <input type="submit" value="Add"/>
-</form>
-
+        <input type="submit" value="Add"/>
+    </form>
 {% endblock %}

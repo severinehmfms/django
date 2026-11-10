@@ -3,10 +3,12 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 
 
+def verifier_question(value):
+    if "?" not in value:
+        raise ValidationError("La question doit contenir un point d'interrogation.")
+
+
 class QuestionForm(forms.Form):
-    def verifier_question(value):
-        if "?" not in value:
-            raise ValidationError("La question doit contenir un point d'interrogation.")
 
     question_text = forms.CharField(
         label="Texte de la question",

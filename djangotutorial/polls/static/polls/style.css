@@ -5,3 +5,30 @@ body {
 li a {
     color: green;
 }
+
+/* Messages d'erreur des formulaires Django */
+/* Messages d'erreur en rouge */
+.errorlist {
+    color: red;
+    font-size: 0.9em;
+    list-style: none;
+    padding-left: 0;
+}
+
+/* Bordure rouge du champ qui comporte une erreur */
+p:has(.errorlist) input,
+p:has(.errorlist) textarea,
+p:has(.errorlist) select {
+    border: 2px solid red;
+}
+
+/* Bordure rouge uniquement sur les champs en erreur *//*
+input.error,
+textarea.error,
+select.error {
+    border: 2px solid red;
+}
+
+input:invalid {
+    border: 2px solid red;
+}*/

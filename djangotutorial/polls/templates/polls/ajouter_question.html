@@ -6,74 +6,25 @@
 
 {% block header %}
     <img src="{% static 'images/banner-header.jpg' %}" alt="Bannière du site" height="50">
-    <link rel="stylesheet" href="{% static 'style.css' %}">
 {% endblock %}
 
 {% block main %}
+    <h1>Ajouter une question</h1>
 
-<h1>Ajouter une question</h1>
+    <form method="post">
 
+        {% csrf_token %}
 
+        {{ form.as_p }}
 
+        <button type="submit">Ajouter la question</button>
 
-<form method="post">
+    </form>
 
-    {% csrf_token %}
-
-    <h2>Question</h2>
-
-    {{ form.question_text.label_tag }}
-    {{ form.question_text }}
-    <span class="txt-help">  {{ form.question_text.help_text }} </span>
-    <span class="txt-error"> {{ form.question_text.errors }} </span>
-
-    <br><br>
-
-    {{ form.pub_date.label_tag }}
-    {{ form.pub_date }}
-    <span class="txt-error"> {{ form.pub_date.errors }} </span>
-
-    <h2>Choix de réponses (facultatifs)</h2>
-
-    {{ form.choice1.label_tag }}
-    {{ form.choice1 }}
-    <span class="txt-error"> {{ form.choice1.errors }} </span>
-
-    <br><br>
-
-    {{ form.choice2.label_tag }}
-    {{ form.choice2 }}
-     <span class="txt-error"> {{ form.choice2.errors }} </span>
-
-    <br><br>
-
-    {{ form.choice3.label_tag }}
-    {{ form.choice3 }}
-    <span class="txt-error"> {{ form.choice3.errors }} </span>
-
-    <br><br>
-
-    {{ form.choice4.label_tag }}
-    {{ form.choice4 }}
-    <span class="txt-error"> {{ form.choice4.errors }} </span>
-
-    <br><br>
-
-    {{ form.choice5.label_tag }}
-    {{ form.choice5 }}
-    <span class="txt-error"> {{ form.choice5.errors }} </span>
-
-    <br><br>
-
-    <button type="submit">Ajouter la question</button>
-
-</form>
-
-<p>
-    <a href="{% url 'polls:index' %}">
-        Retour à la liste des questions
-    </a>
-</p>
-
+    <p>
+        <a href="{% url 'polls:index' %}">
+            Retour à la liste des questions
+        </a>
+    </p>
 
 {% endblock %}
