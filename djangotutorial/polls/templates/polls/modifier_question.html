@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Modification d'un sondage {% endblock %}
+
+{% block header %}
+    <img src="{% static 'images/banner-header.jpg' %}" alt="Bannière du site" height="50">
+{% endblock %}
+
+{% block main %}
+    <h1>Modifier une question</h1>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Mettre à jour la question</button>
+
+    </form>
+
+    <p>
+        <a href="{% url 'polls:index' %}">
+            Retour à la liste des questions
+        </a>
+    </p>
+
+{% endblock %}

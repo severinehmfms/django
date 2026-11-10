@@ -239,6 +239,31 @@ def ajouter_question(request):
         {"form": form}
     )
 
+def modifier_question(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+
+    if request.method == "POST":
+        form = QuestionForm(request.POST)
+
+        if form.is_valid():
+            question.question_text = form.cleaned_data["question_text"]
+            question.pub_date = form.cleaned_data["pub_date"]
+
+            question.save()
+
+            return redirect("polls:index")
+
+    else:
+        form = QuestionForm(initial={
+            "question_text": question.question_text,
+            "pub_date": question.pub_date,
+        })
+
+    return render(request, "polls/modifier_question.html", {
+        "form": form,
+        "question": question
+    })
+
 @login_required
 def add(request):
     #return render(request, 'polls/add.html')
