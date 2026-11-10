@@ -22,9 +22,9 @@ p:has(.errorlist) select {
     border: 2px solid red;
 }
 
-/* Bordure rouge uniquement sur les champs en erreur => Ne semble pas fonctionner*/
-input.error,
-textarea.error,
-select.error {
+/* Bordure rouge uniquement sur les champs en erreur */
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
     border: 2px solid red;
 }
