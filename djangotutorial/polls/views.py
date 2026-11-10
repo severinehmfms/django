@@ -248,16 +248,50 @@ def modifier_question(request, question_id):
         if form.is_valid():
             question.question_text = form.cleaned_data["question_text"]
             question.pub_date = form.cleaned_data["pub_date"]
-
             question.save()
+
+            choix_existants = list(question.choice_set.all())
+
+            # On parcoure les inputs des choix
+            for i in range(1, 6):
+                # On récupère le texte de l'input
+                texte = form.cleaned_data[f"choice{i}"]
+
+                # Tant qu'on est dans les choix qui existaient déjà, on les modifie
+                if i <= len(choix_existants):
+                    choix = choix_existants[i - 1]
+
+                    if texte:
+                        choix.choice_text = texte
+                        choix.save()
+                    else:
+                        choix.delete()
+                # Sinon on les supprime
+                elif texte:
+                    Choice.objects.create(
+                        question=question,
+                        choice_text=texte
+                    )
 
             return redirect("polls:index")
 
     else:
-        form = QuestionForm(initial={
+        """form = QuestionForm(initial={
             "question_text": question.question_text,
             "pub_date": question.pub_date,
-        })
+        })"""
+        # On récupère les choix associés à cette question
+        choix = question.choice_set.all()
+
+        initial = {
+            "question_text": question.question_text,
+            "pub_date": question.pub_date,
+        }
+
+        for i, choice in enumerate(choix, start=1):
+            initial[f"choice{i}"] = choice.choice_text
+
+        form = QuestionForm(initial=initial)
 
     return render(request, "polls/modifier_question.html", {
         "form": form,
