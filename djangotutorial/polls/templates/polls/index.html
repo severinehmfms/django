@@ -14,7 +14,18 @@
     {% if latest_question_list %}
         <ul>
         {% for question in latest_question_list %}
-            <li>{{ question.pub_date }} - <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }} </a> -  <a href="{% url 'polls:modifier' question.id %}"> Modifier </a></li>
+            <li>{{ question.pub_date }} - <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }} </a>
+                -  <a href="{% url 'polls:modifier' question.id %}"> Modifier </a>
+
+                <form action="{% url 'polls:supprimer' question.id %}"
+                method="post"
+                onsubmit="return confirm('Voulez-vous vraiment supprimer cette question ?');">
+
+                {% csrf_token %}
+                <button type="submit">Supprimer</button>
+                </form>
+
+            </li>
         {% endfor %}
         </ul>
     {% else %}

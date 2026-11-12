@@ -16,6 +16,7 @@ from polls.utils import minimax
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -226,6 +227,7 @@ def ajouter_question(request):
                         choice_text=choice_text
                     )
 
+            messages.success(request, "La question a bien été ajoutée.")
             # Sans le raccourci
             # return HttpResponseRedirect(reverse("polls:index"))
             # En utilisant le raccourci de from django.shortcuts import redirect
@@ -275,6 +277,8 @@ def modifier_question(request, question_id):
                 elif texte:
                     Choice.objects.create(question=question, choice_text=texte)
 
+            messages.success(request, "La question a bien été modifiée.")
+
             return redirect("polls:index")
 
     else:
@@ -299,6 +303,16 @@ def modifier_question(request, question_id):
         "form": form,
         "question": question
     })
+
+@login_required
+def supprimer_question(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    print(f"On va supprimer la question numéro {question_id} ")
+    question.delete()
+
+    messages.success(request, "La question a bien été supprimée.")
+
+    return redirect("polls:index")
 
 @login_required
 def add(request):

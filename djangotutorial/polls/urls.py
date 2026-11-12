@@ -34,6 +34,7 @@ urlpatterns = [
     #Formulaire d'ajout en utilisant les forms Django
     path("ajouter/", views.ajouter_question, name="ajouter_question"),
     path("<int:question_id>/modifier/", views.modifier_question, name="modifier"),
+    path("<int:question_id>/supprimer/", views.supprimer_question, name="supprimer"),
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
 ]
