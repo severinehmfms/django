@@ -242,14 +242,18 @@ def ajouter_question(request):
 def modifier_question(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
 
+    # Si on vient du formulaire (donc rempli)
     if request.method == "POST":
+        # On récupère l'objet du formulaire
         form = QuestionForm(request.POST)
 
         if form.is_valid():
+            # S'il est valide on récupère les informations de la question et on la sauvegarde
             question.question_text = form.cleaned_data["question_text"]
             question.pub_date = form.cleaned_data["pub_date"]
             question.save()
 
+            # On récupère la liste des choix actuellement associés à la question
             choix_existants = list(question.choice_set.all())
 
             # On parcoure les inputs des choix
@@ -257,21 +261,19 @@ def modifier_question(request, question_id):
                 # On récupère le texte de l'input
                 texte = form.cleaned_data[f"choice{i}"]
 
-                # Tant qu'on est dans les choix qui existaient déjà, on les modifie
+                # Tant qu'on est dans le nombre de choix qui existaient déjà, on les modifie
                 if i <= len(choix_existants):
                     choix = choix_existants[i - 1]
-
+                    # Si l'input est rempli on modifie le choix
                     if texte:
                         choix.choice_text = texte
                         choix.save()
+                    # Sinon on le supprime
                     else:
                         choix.delete()
-                # Sinon on les supprime
+                # Sinon on crée un nouveau choix
                 elif texte:
-                    Choice.objects.create(
-                        question=question,
-                        choice_text=texte
-                    )
+                    Choice.objects.create(question=question, choice_text=texte)
 
             return redirect("polls:index")
 
@@ -282,7 +284,7 @@ def modifier_question(request, question_id):
         })"""
         # On récupère les choix associés à cette question
         choix = question.choice_set.all()
-
+        # Initial : crée le formulaire avec les valeurs actuelles de la question à modifier
         initial = {
             "question_text": question.question_text,
             "pub_date": question.pub_date,
