@@ -43,7 +43,7 @@ class Question(models.Model):
         resultat = self.choice_set.aggregate(total=Sum('votes'))
         total = resultat['total']
         max_choice = max(choices, key=lambda c: c.votes / total)
-        return (max_choice.choice_text, max_choice.votes / total)
+        return (max_choice.choice_text, (max_choice.votes / total) if total > 0 else 0)
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

@@ -15,15 +15,19 @@
         <ul>
         {% for question in latest_question_list %}
             <li>{{ question.pub_date }} - <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }} </a>
-                -  <a href="{% url 'polls:modifier' question.id %}"> Modifier </a>
 
-                <form action="{% url 'polls:supprimer' question.id %}"
-                method="post"
-                onsubmit="return confirm('Voulez-vous vraiment supprimer cette question ?');">
+               {% if user.is_superuser %}
+                    -  <a href="{% url 'polls:modifier' question.id %}"> Modifier </a>
 
-                {% csrf_token %}
-                <button type="submit">Supprimer</button>
-                </form>
+                    <form action="{% url 'polls:supprimer' question.id %}"
+                    method="post"
+                    onsubmit="return confirm('Voulez-vous vraiment supprimer cette question ?');">
+
+                    {% csrf_token %}
+                    <button type="submit">Supprimer</button>
+
+                    </form>
+               {% endif %}
 
             </li>
         {% endfor %}
